@@ -9,4 +9,8 @@
 
 <section class="admin">
   <%= link_to "Edit", edit_event_path(@event), class: "button" %>
+  <%= link_to "Delete", @event, class: "button", data: {
+    turbo_method: :delete,
+    turbo_confirm: "Do you really want to delete this movie!?"
+  } %>
 </section>
