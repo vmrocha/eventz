@@ -37,6 +37,7 @@ class UsersController < ApplicationController
 
   def destroy
     User.find(params[:id]).destroy
+    session[:user_id] = nil
     redirect_to events_url, status: :see_other, alert: "User successfully deleted!"
   end
 
