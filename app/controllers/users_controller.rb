@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :require_signin, except: %i[new create]
+
   def index
     @users = User.all
   end
@@ -38,12 +40,19 @@ class UsersController < ApplicationController
   def destroy
     User.find(params[:id]).destroy
     session[:user_id] = nil
-    redirect_to events_url, status: :see_other, alert: "User successfully deleted!"
+    redirect_to events_url,
+                status: :see_other,
+                alert: "User successfully deleted!"
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(
+      :name,
+      :email,
+      :password,
+      :password_confirmation
+    )
   end
 end
