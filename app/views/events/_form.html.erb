@@ -23,5 +23,9 @@
   <%= f.label :capacity %>
   <%= f.number_field :capacity %>
 
+  <div class="checkboxes">
+    <%= f.collection_check_boxes(:category_ids, Category.all, :id, :name) %>
+  </div>
+
   <%= f.submit %>
 <% end %>
