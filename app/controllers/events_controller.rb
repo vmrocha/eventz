@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
-  before_action :require_signin, except: [:index, :show]
-  before_action :require_admin, except: [:index, :show]
+  before_action :require_signin, except: %i[index show]
+  before_action :require_admin, except: %i[index show]
 
   def index
     @events = Event.upcomming
@@ -21,6 +21,9 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
+    if current_user && current_user.likes.find_by(event: @event)
+      @like = current_user.likes.find_by(event: @event)
+    end
   end
 
   def edit
@@ -38,13 +41,22 @@ class EventsController < ApplicationController
 
   def destroy
     Event.find(params[:id]).destroy
-    redirect_to events_url, status: :see_other, alert: "Event successfully deleted!"
+    redirect_to events_url,
+                status: :see_other,
+                alert: "Event successfully deleted!"
   end
 
   private
 
   def event_params
-    params.require(:event).permit(:name, :description, :location, :price, :starts_at,
-      :image_file_name, :capacity)
+    params.require(:event).permit(
+      :name,
+      :description,
+      :location,
+      :price,
+      :starts_at,
+      :image_file_name,
+      :capacity
+    )
   end
 end
