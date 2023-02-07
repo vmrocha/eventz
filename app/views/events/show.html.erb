@@ -12,6 +12,16 @@
       <p><%= link_to "How's registered?", event_registrations_path(@event) %></p>
     </div>
   </div>
+  <aside>
+    <% if @event.likers.present? %>
+      <h4>Liked by</h4>
+      <ul>
+        <% @event.likers.each do |user| %>
+          <li><%= link_to user.name, user %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </aside>
 </section>
 
 <% if current_user_admin? %>
