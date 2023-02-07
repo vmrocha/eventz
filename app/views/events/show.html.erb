@@ -29,6 +29,14 @@
         <% end %>
       </ul>
     <% end %>
+    <% if @event.categories.present? %>
+      <h4>Categories</h4>
+      <ul>
+        <% @event.categories.each do |c| %>
+          <li><%= c.name %></li>
+        <% end %>
+      </ul>
+    <% end %>
   </aside>
 </section>
 
